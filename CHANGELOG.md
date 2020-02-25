@@ -1,3 +1,3 @@
-## [0.0.1] - TODO: Add release date.
+## [0.0.2] - Initial commit.
 
-* TODO: Describe initial release.
+* Initial release.
