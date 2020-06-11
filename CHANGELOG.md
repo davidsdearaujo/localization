@@ -1,3 +1,8 @@
-## [0.0.2] - Initial commit.
+## [0.1.0] 2020-06-11
+
+* Atualizado README;
+* Adicionada automação no [SLIDY CLI](https://pub.dev/packages/slidy);
+
+## [0.0.2] 2020-02-25
 
 * Initial release.

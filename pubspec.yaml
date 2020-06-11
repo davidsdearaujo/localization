@@ -1,8 +1,8 @@
 name: localization
-description: A new Flutter package project.
-version: 0.0.2
+description: Package to simplify the package translation.
+version: 0.1.0
 author: Deivão <david@flutterando.com.br>
-homepage: http://flutterando.com.br
+homepage: https://github.com/davidsdearaujo/localization
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
