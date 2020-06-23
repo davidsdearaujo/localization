@@ -8,12 +8,14 @@ class LocalizationWidget extends StatefulWidget {
   final String translationLocale;
   final String defaultLang;
   final Widget child;
+  final String selectedLanguage;
 
   LocalizationWidget({
     Key key,
     this.translationLocale = "assets/lang",
     this.defaultLang = "pt_BR",
     @required this.child,
+    this.selectedLanguage = '',
   })  : assert(
           child != null,
           "The field 'child' cannot be null.",
@@ -35,6 +37,7 @@ class _LocalizationWidgetState extends State<LocalizationWidget> {
     future = Localization.configuration(
       translationLocale: widget.translationLocale,
       defaultLang: widget.defaultLang,
+      selectedLanguage: widget.selectedLanguage,
     );
 
     timeoutTimer = Timer(Duration(seconds: 2), () {
