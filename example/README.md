@@ -1,6 +1,15 @@
-# example
+# Localization Example
 
-A new Flutter project.
+### This project have a two examples: 
+ - Home implementation;
+ - Routes implementation;
+
+Its settings are, respectively, in the files [main_home.dart](https://github.com/davidsdearaujo/localization/blob/master/example/lib/main_home.dart) and [main_routes.dart](https://github.com/davidsdearaujo/localization/blob/master/example/lib/main_routes.dart).
+
+The [launch.json](https://github.com/davidsdearaujo/localization/blob/master/example/.vscode/launch.json) file helps to run each configuration separately in vscode.
+![image](https://user-images.githubusercontent.com/16373553/85358091-410d6d00-b4e9-11ea-948b-be2fd65208c9.png)
+
+It is also possible to run the examples through the [Slidy](https://pub.dev/packages/slidy), using the commands `slidy run home` or `slidy run routes`.
 
 ## Getting Started
 
