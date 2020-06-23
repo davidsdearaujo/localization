@@ -33,6 +33,26 @@ Para facilitar o consumo da tradução, criamos uma extension de simples utiliza
 "sua-key".i18n();
 ``` 
 
+## Definindo um idioma manualmente
+Por padrão, o idioma é selecionado pela configuração `Platform.localeName` do package `dart:io`. 
+Para forçar um determinado idioma, basta utilizar o parâmetro `selectedLanguage`, dessa forma:
+```dart
+Localization.configuration(selectedLanguage: 'pt_BR');
+```
+Se os arquivos de tradução não forem encontrados, será carregado o arquivo de traduções informado em `defaultLanguage` _(padrão `pt_BR.json`)_.
+
+Para saber qual o idioma que o dispositivo está chamando, basta importar o `dart:io` dar um print de `Platform.localeName`, dessa forma:
+
+**main.dart**
+```dart
+import 'dart:io';
+
+void main(){
+  print(Platform.localeName);
+  runApp(MyApp());
+}
+```
+
 ## Parâmetros
 Para enviar parâmetros para a tradução, utilize a chave `%s`, conforme o exemplo:
 
