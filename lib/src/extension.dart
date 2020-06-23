@@ -11,12 +11,14 @@ extension Localization on String {
   static Future<void> configuration({
     String translationLocale = "assets/lang",
     String defaultLang = "pt_BR",
+    String selectedLanguage,
   }) async {
     String data;
+    debugPrint(selectedLanguage ?? Platform.localeName);
     debugPrint("Carregando dados de localização.");
     try {
-      data = await rootBundle
-          .loadString('$translationLocale/${Platform.localeName}.json');
+      data = await rootBundle.loadString(
+          '$translationLocale/${selectedLanguage ?? Platform.localeName}.json');
     } catch (_) {
       data =
           await rootBundle.loadString('$translationLocale/$defaultLang.json');
