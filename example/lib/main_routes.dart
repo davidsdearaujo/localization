@@ -64,19 +64,13 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Text("welcome".i18n(["22/06"])),
-            TextField(
-                decoration: InputDecoration(labelText: "login-label".i18n())),
-            TextField(
-                decoration:
-                    InputDecoration(labelText: "password-label".i18n())),
-            RaisedButton(
+            TextField(decoration: InputDecoration(labelText: "login-label".i18n())),
+            TextField(decoration: InputDecoration(labelText: "password-label".i18n())),
+            ElevatedButton(
               child: Text("change-value".i18n()),
               onPressed: () async {
                 setState(() {
-                  if (lang == 'pt_BR')
-                    lang = 'en_US';
-                  else
-                    lang = 'pt_BR';
+                  lang = lang == 'pt_BR' ? 'en_US' : 'pt_BR';
                 });
                 await Localization.configuration(selectedLanguage: lang);
               },
