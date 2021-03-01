@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
       ),
       home: LocalizationWidget(
         child: HomePage(),
-        selectedLanguage: 'en_US',
+        // selectedLanguage: 'en_US',
+        // selectedLanguage: 'pt_BR',
       ),
     );
   }
@@ -25,7 +26,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("homeTitle".i18n()),
+        title: Text("homeTitle".i18n()), 
       ),
     );
   }

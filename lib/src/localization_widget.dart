@@ -8,14 +8,14 @@ class LocalizationWidget extends StatefulWidget {
   final String translationLocale;
   final String defaultLang;
   final Widget child;
-  final String selectedLanguage;
+  final String? selectedLanguage;
 
   LocalizationWidget({
     Key? key,
     this.translationLocale = "assets/lang",
     this.defaultLang = "pt_BR",
     required this.child,
-    this.selectedLanguage = '',
+    this.selectedLanguage,
   }) : super(key: key);
 
   @override
@@ -54,7 +54,8 @@ class _LocalizationWidgetState extends State<LocalizationWidget> {
     return FutureBuilder(
       future: future,
       builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done || timeoutTimer.isActive) {
+        if (snapshot.connectionState != ConnectionState.done ||
+            timeoutTimer.isActive) {
           return Material(
             child: Center(child: CircularProgressIndicator()),
           );
