@@ -1,11 +1,11 @@
 name: localization
 description: Package to simplify the package translation.
-version: 0.1.0
+version: 1.0.0
 author: Deivão <david@flutterando.com.br>
 homepage: https://github.com/davidsdearaujo/localization
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: '>=2.12.0-0 <3.0.0'
 
 dependencies:
   flutter:
