@@ -11,24 +11,20 @@ class LocalizationWidget extends StatefulWidget {
   final String selectedLanguage;
 
   LocalizationWidget({
-    Key key,
+    Key? key,
     this.translationLocale = "assets/lang",
     this.defaultLang = "pt_BR",
-    @required this.child,
+    required this.child,
     this.selectedLanguage = '',
-  })  : assert(
-          child != null,
-          "The field 'child' cannot be null.",
-        ),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _LocalizationWidgetState createState() => _LocalizationWidgetState();
 }
 
 class _LocalizationWidgetState extends State<LocalizationWidget> {
-  Future<void> future;
-  Timer timeoutTimer;
+  late Future<void> future;
+  late Timer timeoutTimer;
 
   @override
   void initState() {
@@ -58,8 +54,7 @@ class _LocalizationWidgetState extends State<LocalizationWidget> {
     return FutureBuilder(
       future: future,
       builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done ||
-            timeoutTimer.isActive) {
+        if (snapshot.connectionState != ConnectionState.done || timeoutTimer.isActive) {
           return Material(
             child: Center(child: CircularProgressIndicator()),
           );
