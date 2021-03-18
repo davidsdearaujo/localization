@@ -40,7 +40,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   loadConfig() async {
-    await Localization.configuration(selectedLanguage: 'pt_BR');
+    await Localization.configuration(selectedLanguage: 'pt_BR', showDebugPrintMode: false);
     Navigator.pushReplacementNamed(context, '/home');
   }
 }

@@ -11,10 +11,10 @@ extension Localization on String {
     String translationLocale = "assets/lang",
     String defaultLang = "pt_BR",
     String? selectedLanguage,
-    bool showDebugPrint = true,
+    bool showDebugPrintMode = true,
   }) async {
     String data;
-    if (!showDebugPrint) {
+    if (showDebugPrintMode) {
       debugPrint(selectedLanguage ?? Platform.localeName);
       debugPrint("Carregando dados de localização.");
     }
@@ -28,7 +28,7 @@ extension Localization on String {
     _result.forEach((String key, dynamic value) {
       sentences![key] = value.toString();
     });
-    if (!showDebugPrint) {
+    if (showDebugPrintMode) {
       debugPrint("Dados de localização carregados com sucesso!");
     }
   }
