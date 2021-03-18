@@ -11,10 +11,13 @@ extension Localization on String {
     String translationLocale = "assets/lang",
     String defaultLang = "pt_BR",
     String? selectedLanguage,
+    bool showDebugPrint = true,
   }) async {
     String data;
-    debugPrint(selectedLanguage ?? Platform.localeName);
-    debugPrint("Carregando dados de localização.");
+    if (!showDebugPrint) {
+      debugPrint(selectedLanguage ?? Platform.localeName);
+      debugPrint("Carregando dados de localização.");
+    }
     try {
       data = await rootBundle.loadString('$translationLocale/${selectedLanguage ?? Platform.localeName}.json');
     } catch (_) {
@@ -25,7 +28,9 @@ extension Localization on String {
     _result.forEach((String key, dynamic value) {
       sentences![key] = value.toString();
     });
-    debugPrint("Dados de localização carregados com sucesso!");
+    if (!showDebugPrint) {
+      debugPrint("Dados de localização carregados com sucesso!");
+    }
   }
 
   String i18n([List<String>? args]) {
