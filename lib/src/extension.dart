@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' if (dart.library.io) 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -19,9 +19,11 @@ extension Localization on String {
       debugPrint("Carregando dados de localização.");
     }
     try {
-      data = await rootBundle.loadString('$translationLocale/${selectedLanguage ?? Platform.localeName}.json');
+      data = await rootBundle.loadString(
+          '$translationLocale/${selectedLanguage ?? Platform.localeName}.json');
     } catch (_) {
-      data = await rootBundle.loadString('$translationLocale/$defaultLang.json');
+      data =
+          await rootBundle.loadString('$translationLocale/$defaultLang.json');
     }
     Map<String, dynamic> _result = json.decode(data);
     sentences = {};
