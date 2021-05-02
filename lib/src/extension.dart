@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -13,10 +13,10 @@ extension Localization on String {
     String? selectedLanguage,
   }) async {
     String data;
-    debugPrint(selectedLanguage ?? Platform.localeName);
+    debugPrint(selectedLanguage ?? window.locale.toString());
     debugPrint("Carregando dados de localização.");
     try {
-      data = await rootBundle.loadString('$translationLocale/${selectedLanguage ?? Platform.localeName}.json');
+      data = await rootBundle.loadString('$translationLocale/${selectedLanguage ?? window.locale.toString()}.json');
     } catch (_) {
       data = await rootBundle.loadString('$translationLocale/$defaultLang.json');
     }
