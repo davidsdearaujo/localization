@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' if (dart.library.io) 'dart:html';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -8,30 +8,33 @@ import 'package:flutter/services.dart';
 extension Localization on String {
   static Map<String, String>? sentences;
   static Future<void> configuration({
-    String translationLocale = "assets/lang",
-    String defaultLang = "pt_BR",
+    String translationLocale = 'assets/lang',
+    String defaultLang = 'pt_BR',
     String? selectedLanguage,
     bool showDebugPrintMode = true,
   }) async {
-    String data;
+    late String data;
     if (showDebugPrintMode) {
       debugPrint(selectedLanguage ?? Platform.localeName);
-      debugPrint("Carregando dados de localização.");
+      debugPrint('Carregando dados de localização.');
     }
     try {
       data = await rootBundle.loadString(
-          '$translationLocale/${selectedLanguage ?? Platform.localeName}.json');
+        '$translationLocale/${selectedLanguage ?? Platform.localeName}.json',
+      );
     } catch (_) {
-      data =
-          await rootBundle.loadString('$translationLocale/$defaultLang.json');
+      data = await rootBundle.loadString(
+        '$translationLocale/$defaultLang.json',
+      );
     }
     Map<String, dynamic> _result = json.decode(data);
     sentences = {};
-    _result.forEach((String key, dynamic value) {
+
+    _result.forEach((key, value) {
       sentences![key] = value.toString();
     });
     if (showDebugPrintMode) {
-      debugPrint("Dados de localização carregados com sucesso!");
+      debugPrint('Dados de localização carregados com sucesso!');
     }
   }
 
@@ -39,16 +42,16 @@ extension Localization on String {
     final key = this;
 
     if (sentences == null) {
-      throw '[Localization System] sentences == null.';
+      throw '[Localization System] sentences == null.\nMaybe you forgot to declare the translationLocale in your pubspec.';
     }
 
-    String? res = sentences![key];
+    var res = sentences![key];
 
     if (res != null) {
       if (args != null) {
-        args.forEach((arg) {
+        for (var arg in args) {
           res = res!.replaceFirst(RegExp(r'%s'), arg.toString());
-        });
+        }
       }
     }
 
