@@ -6,7 +6,7 @@ Package para simplificar tradução no app.
 import 'package:localization/localization.dart';
 ```
 
-## Configuração - Sem sistema de rotas
+## Configuração - Sem sistema de rotas   [[exemplo]](https://github.com/davidsdearaujo/localization/blob/master/example/README.md)
 
 A configuração do package sem sistema de rotas é bem simples, basta colocar após o MaterialApp o seguinte código:
 
@@ -19,7 +19,7 @@ return MaterialApp(
 
 Dessa forma, será carregado o arquivo de tradução no início da aplicação e seu conteúdo ficará em memória.
 
-## Configuração - Com sistema de rotas
+## Configuração - Com sistema de rotas   [[exemplo]](https://github.com/davidsdearaujo/localization/blob/master/example/README.md)
 
 Quando a aplicação está utilizando o sistema de rotas do flutter, não é utilizada a propriedade `home` do `MaterialApp`.
 Para resolver esse problema, utilize o método assíncrono estático `Localization.configuration()`.
