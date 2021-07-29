@@ -1,7 +1,6 @@
 name: localization
 description: Package to simplify the package translation.
 version: 1.0.0
-author: Deivão <david@flutterando.com.br>
 homepage: https://github.com/davidsdearaujo/localization
 
 environment:
