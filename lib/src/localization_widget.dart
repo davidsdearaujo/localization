@@ -5,17 +5,20 @@ import 'package:flutter/material.dart';
 import 'extension.dart';
 
 class LocalizationWidget extends StatefulWidget {
-  final String translationLocale;
+  @deprecated
+  final String? translationLocale;
   final String defaultLang;
   final Widget child;
   final String? selectedLanguage;
+  final List<String> translationLocales;
 
   LocalizationWidget({
     Key? key,
-    this.translationLocale = "assets/lang",
+    @deprecated this.translationLocale,
     this.defaultLang = "pt_BR",
     required this.child,
     this.selectedLanguage,
+    this.translationLocales = const ["assets/lang"],
   }) : super(key: key);
 
   @override
@@ -29,9 +32,8 @@ class _LocalizationWidgetState extends State<LocalizationWidget> {
   @override
   void initState() {
     super.initState();
-
+    widget.translationLocales.forEach((locale) => Localization.includeTranslationDirectory(locale));
     future = Localization.configuration(
-      translationLocale: widget.translationLocale,
       defaultLang: widget.defaultLang,
       selectedLanguage: widget.selectedLanguage,
     );
@@ -54,11 +56,8 @@ class _LocalizationWidgetState extends State<LocalizationWidget> {
     return FutureBuilder(
       future: future,
       builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done ||
-            timeoutTimer.isActive) {
-          return Material(
-            child: Center(child: CircularProgressIndicator()),
-          );
+        if (snapshot.connectionState != ConnectionState.done || timeoutTimer.isActive) {
+          return Material(child: Center(child: CircularProgressIndicator()));
         } else {
           return widget.child;
         }

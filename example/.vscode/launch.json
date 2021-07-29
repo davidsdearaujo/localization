@@ -17,7 +17,7 @@
             "request": "launch",
             "type": "dart",
             "args": [
-                "--target=lib/main_home.dart"
+                "--target=lib/main_common.dart"
             ]
         }
     ]

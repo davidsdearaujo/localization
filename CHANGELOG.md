@@ -1,3 +1,7 @@
+## [1.0.0] 2021-07-28
+
+* Adicionada possibilidade de multiplos diretórios de tradução;
+
 ## [0.2.0-nullsafety] 2021-03-01
 
 * Migração Nullsafety;

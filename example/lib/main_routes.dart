@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:localization/localization.dart';
+
+import 'pages/home_page.dart';
+import 'pages/splash_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,68 +18,6 @@ class MyApp extends StatelessWidget {
         '/': (_) => SplashPage(),
         '/home': (_) => HomePage(),
       },
-    );
-  }
-}
-
-class SplashPage extends StatefulWidget {
-  @override
-  _SplashPageState createState() => _SplashPageState();
-}
-
-class _SplashPageState extends State<SplashPage> {
-  @override
-  Widget build(BuildContext context) {
-    loadConfig();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Splash'),
-      ),
-      body: Center(
-        child: Text('Loading....'),
-      ),
-    );
-  }
-
-  loadConfig() async {
-    await Localization.configuration(selectedLanguage: 'pt_BR');
-    Navigator.pushReplacementNamed(context, '/home');
-  }
-}
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  String lang = 'pt_BR';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(lang),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text("welcome".i18n(["22/06"])),
-            TextField(decoration: InputDecoration(labelText: "login-label".i18n())),
-            TextField(decoration: InputDecoration(labelText: "password-label".i18n())),
-            ElevatedButton(
-              child: Text("change-value".i18n()),
-              onPressed: () async {
-                setState(() {
-                  lang = lang == 'pt_BR' ? 'en_US' : 'pt_BR';
-                });
-                await Localization.configuration(selectedLanguage: lang);
-              },
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

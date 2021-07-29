@@ -1,7 +1,7 @@
 {
-    "homeTitle": "Localization Test US",
+    "home-title": "Localization Test - %s",
     "welcome": "Welcome, Today is %s",
-    "login-label": "Login",
+    "login-label": "User",
     "password-label": "Password",
     "change-value": "Mudar para português"
 }
