@@ -7,7 +7,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String lang = 'pt_BR';
+  String lang = Localization.selectedLanguage.toString();
 
   @override
   Widget build(BuildContext context) {

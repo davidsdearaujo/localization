@@ -23,8 +23,9 @@ extension Localization on String {
     for (var locale in Localization.translationLocales!) {
       String data;
       try {
+        selectedLanguage = selectedLanguage ?? window.locale.toString();
         data = await rootBundle
-            .loadString('$locale/${selectedLanguage ?? window.locale.toString()}.json')
+            .loadString('$locale/$selectedLanguage.json')
             .onError((error, stackTrace) => rootBundle.loadString('$locale/${defaultLang ?? 'pt_BR'}.json'));
 
         Map<String, dynamic> _result = json.decode(data);
