@@ -56,8 +56,8 @@ extension Localization on String {
     ColoredPrint.log("Adicionado Path: $translationLocale");
   }
 
-  static String translate(String key, [List<String>? args]) => key.i18n(args);
-  String i18n([List<String>? args]) {
+  static String translate(String key, [List<String>? args, List<bool>? conditions]) => key.i18n(args, conditions);
+  String i18n([List<String>? args, List<bool>? conditions]) {
     final key = this;
     if (Localization.sentences == null) {
       final message = "Nenhuma chave de tradução encontrada. "
@@ -72,8 +72,54 @@ extension Localization on String {
         res = res!.replaceFirst(RegExp(r'%s'), arg.toString());
       }
     }
+    if (res != null && conditions != null) {
+      var matches = _getConditions(res);
+      res = _replaceConditions(matches, conditions, res);
+    }
 
     return res ?? key;
+  }
+
+  Iterable<RegExpMatch> _getConditions(String text) {
+    String pattern = r"%b\{(\s*?.*?)*?\}";
+    RegExp regExp = new RegExp(
+      pattern,
+      caseSensitive: false,
+      multiLine: false,
+    );
+    if (regExp.hasMatch(text)) {
+      var matches = regExp.allMatches(text);
+      return matches;
+    }
+
+    return [];
+  }
+
+  String _replaceConditions(Iterable<RegExpMatch> matches, List<bool> plurals, String text) {
+    var newText = text;
+    int i = 0;
+
+    for (var item in matches) {
+      var replaced = item.group(0) ?? '';
+
+      RegExp regCondition = new RegExp(
+        r'(?<=\{)(.*?)(?=\})',
+        caseSensitive: false,
+        multiLine: false,
+      );
+      var e = regCondition.stringMatch(replaced)?.split(':');
+      var n = plurals[i]
+          ? e![0]
+          : (e!.length > 1)
+              ? e[1]
+              : e[0];
+
+      newText = newText.replaceAll(replaced, n);
+
+      i++;
+    }
+
+    return newText;
   }
 
   static void fromJson(Map<String, dynamic> json) => Localization.sentences = json.map((key, value) => MapEntry(key, value.toString()));
