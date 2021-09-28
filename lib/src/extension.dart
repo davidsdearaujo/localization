@@ -74,6 +74,13 @@ extension Localization on String {
     }
     if (res != null && conditions != null) {
       var matches = _getConditions(res);
+      if (matches.length != conditions.length) {
+        final message = "A Quantidade de condicionais configurada na chave não condiz com os parametros.";
+        ColoredPrint.error(message);
+        throw '[Localization System] $message';
+      }
+
+      
       res = _replaceConditions(matches, conditions, res);
     }
 
