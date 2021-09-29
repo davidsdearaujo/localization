@@ -74,7 +74,7 @@ Para saber qual o idioma que o dispositivo está chamando, basta importar o `dar
 import 'dart:ui';
 
 void main(){
-  print(window.locale.toString());
+  debugPrint(window.locale.toString());
   runApp(MyApp());
 }
 ```
@@ -94,7 +94,7 @@ Para enviar parâmetros para a tradução, utilize a chave `%s`, conforme o exem
 ### No arquivo dart:
 
 ```dart
-"birthday".i18n(["David Araujo", "07/03"]);
+"birthday".i18n(args: ["David Araujo", "07/03"]);
 ```
 
 ## Condições
@@ -112,7 +112,7 @@ Para enviar condições para a tradução, utilize a chave `%b{valor_verdadeiro:
 ### No arquivo dart:
 
 ```dart
-'resultado_encontrado'.i18n([3], [true, true])
+'resultado_encontrado'.i18n(args: [3], conditions: true, true])
 ```
 
 ## Repetição de chaves

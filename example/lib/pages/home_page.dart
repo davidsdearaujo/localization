@@ -12,12 +12,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("home-title".i18n([lang]))),
+      appBar: AppBar(title: Text("home-title".i18n(args: [lang]))),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text("welcome".i18n(["22/06"])),
+            Text("welcome".i18n(args: ["22/06"])),
             Text("package-key-value".i18n()),
             TextField(
                 decoration: InputDecoration(labelText: "login-label".i18n())),

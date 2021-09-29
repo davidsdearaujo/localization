@@ -67,9 +67,9 @@ extension Localization on String {
   }
 
   static String translate(String key,
-          [List<String>? args, List<bool>? conditions]) =>
-      key.i18n(args, conditions);
-  String i18n([List<String>? args, List<bool>? conditions]) {
+          {List<String>? args, List<bool>? conditions}) =>
+      key.i18n(args: args, conditions: conditions);
+  String i18n({List<String>? args, List<bool>? conditions}) {
     final key = this;
     if (Localization.sentences == null) {
       final message = "Nenhuma chave de tradução encontrada. "
