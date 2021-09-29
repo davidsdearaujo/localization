@@ -3,12 +3,39 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:localization/src/extension.dart';
 
 void main() {
-  setUp(() {
-    Localization.fromJson({
-      'testeQuantidade': '%s %b{Resultados:Resultado} %b{encontrados:encontrado}',
+  group('Teste de da configuração', () {
+    setUp(() {
+      TestWidgetsFlutterBinding.ensureInitialized();
+    });
+    test('''
+    Dado diretorio de tradução
+    Quando não informado o diretorio
+    Deve Carregar traduções
+  ''', () async {
+      var result = () async => await Localization.configuration();
+      expect(result, throwsA('[Localization System] Execute o método "Localization.includeTranslationDirectory()'));
+    });
+  
+    test('''
+    Dado diretorio de tradução
+    Quando o diretorio existe
+    Deve Carregar traduções
+  ''', () async {
+      Localization.setTranslationDirectories([
+        'test/assets/lang',
+      ]);
+      await Localization.configuration();
+      expect(Localization.sentences, isNotEmpty);
     });
   });
+
   group('Teste de condicionais da extensão i18n', () {
+    setUp(() {
+      Localization.fromJson({
+        'testeQuantidade': '%s %b{Resultados:Resultado} %b{encontrados:encontrado}',
+      });
+    });
+
     test('''
     Dado a localização de uma determinada chave
     Quando o valor for maior que 1
