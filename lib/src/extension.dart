@@ -51,6 +51,7 @@ extension Localization on String {
       Localization.selectedLanguage = selectedLanguage;
     if (defaultLang != null) Localization.defaultLang = defaultLang;
     ColoredPrint.success("Dados de localização carregados com sucesso!");
+    ColoredPrint.show("Finalização da configurção");
   }
 
   static void setTranslationDirectories(List<String> translationLocales) async {
@@ -129,9 +130,7 @@ extension Localization on String {
       var e = regCondition.stringMatch(replaced)?.split(':');
       var n = plurals[i]
           ? e![0]
-          : (e!.length > 1)
-              ? e[1]
-              : e[0];
+          : e![1];
 
       newText = newText.replaceAll(replaced, n);
 
@@ -144,5 +143,5 @@ extension Localization on String {
   static void fromJson(Map<String, dynamic> json) => Localization.sentences =
       json.map((key, value) => MapEntry(key, value.toString()));
 
-  Map<String, String>? toJson() => Localization.sentences;
+  static Map<String, String>? toJson() => Localization.sentences;
 }

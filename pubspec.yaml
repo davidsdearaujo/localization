@@ -17,3 +17,4 @@ dev_dependencies:
 flutter:
   assets:
     - test/assets/lang/
+    - test/assets/lang2/
