@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 import 'print_color.dart';
 
 class ColoredPrint {
@@ -15,6 +17,6 @@ class ColoredPrint {
     var content = "";
     if (tag.isNotEmpty) content += tagColor("[$tag] ");
     content += messageColor(message);
-    print(content);
+    debugPrint(content);
   }
 }
