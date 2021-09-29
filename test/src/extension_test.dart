@@ -8,18 +8,21 @@ void main() {
       TestWidgetsFlutterBinding.ensureInitialized();
     });
     test('''
-    Dado diretorio de tradução
+    Dado carregamento de traduções
     Quando não informado o diretorio
-    Deve Carregar traduções
+    Então lançar excessão
   ''', () async {
       var result = () async => await Localization.configuration();
-      expect(result, throwsA('[Localization System] Execute o método "Localization.includeTranslationDirectory()'));
+      expect(
+          result,
+          throwsA(
+              '[Localization System] Execute o método "Localization.includeTranslationDirectory()'));
     });
-  
+
     test('''
-    Dado diretorio de tradução
+    Dado carregamento de traduções
     Quando o diretorio existe
-    Deve Carregar traduções
+    Então deve Carregar traduções
   ''', () async {
       Localization.setTranslationDirectories([
         'test/assets/lang',
@@ -32,14 +35,15 @@ void main() {
   group('Teste de condicionais da extensão i18n', () {
     setUp(() {
       Localization.fromJson({
-        'testeQuantidade': '%s %b{Resultados:Resultado} %b{encontrados:encontrado}',
+        'testeQuantidade':
+            '%s %b{Resultados:Resultado} %b{encontrados:encontrado}',
       });
     });
 
     test('''
     Dado a localização de uma determinada chave
     Quando o valor for maior que 1
-    Deve imprimir as condicionais no plural
+    Então deve retornar as condicionais no plural
   ''', () {
       var quantidade = 3;
 
@@ -54,7 +58,7 @@ void main() {
     test('''
     Dado a localização de uma determinada chave
     Quando o valor for igual a 1
-    Deve imprimir as condicionais no singular
+    Então deve retornar  as condicionais no singular
   ''', () {
       var quantidade = 1;
 
@@ -68,18 +72,27 @@ void main() {
     test('''
     Dado a localização de uma determinada chave
     Quando a quantidade de condições de parametros é inferior a quantidade de condições da chave
-    Deve Lançar uma excessão
+    Então deve lançar uma excessão
   ''', () {
-      var result = () => Localization.translate('testeQuantidade', ['1'], [true]);
-      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      var result =
+          () => Localization.translate('testeQuantidade', ['1'], [true]);
+      expect(
+          result,
+          throwsA(
+              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
+
     test('''
     Dado a localização de uma determinada chave
     Quando a quantidade de condições de parametros é superior a quantidade de condições da chave
-    Deve Lançar uma excessão
+    Então deve lançar uma excessão
   ''', () {
-      var result = () => Localization.translate('testeQuantidade', ['1'], [true, true, true]);
-      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      var result = () =>
+          Localization.translate('testeQuantidade', ['1'], [true, true, true]);
+      expect(
+          result,
+          throwsA(
+              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
   });
 }

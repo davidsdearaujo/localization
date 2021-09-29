@@ -19,8 +19,11 @@ class _HomePageState extends State<HomePage> {
           children: [
             Text("welcome".i18n(["22/06"])),
             Text("package-key-value".i18n()),
-            TextField(decoration: InputDecoration(labelText: "login-label".i18n())),
-            TextField(decoration: InputDecoration(labelText: "password-label".i18n())),
+            TextField(
+                decoration: InputDecoration(labelText: "login-label".i18n())),
+            TextField(
+                decoration:
+                    InputDecoration(labelText: "password-label".i18n())),
             ElevatedButton(
               child: Text("change-value".i18n()),
               onPressed: () async {
