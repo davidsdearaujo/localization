@@ -29,7 +29,10 @@ void main() {
     Então lançar excessão
   ''', () async {
       var result = () async => await Localization.configuration();
-      expect(result, throwsA('[Localization System] Execute o método "Localization.includeTranslationDirectory()'));
+      expect(
+          result,
+          throwsA(
+              '[Localization System] Execute o método "Localization.includeTranslationDirectory()'));
     });
 
     test('''
@@ -102,7 +105,8 @@ void main() {
   group('Teste de condicionais da extensão i18n', () {
     setUp(() {
       Localization.fromJson({
-        'testeQuantidade': '%s %b{Resultados:Resultado} %b{encontrados:encontrado}',
+        'testeQuantidade':
+            '%s %b{Resultados:Resultado} %b{encontrados:encontrado}',
       });
     });
 
@@ -115,8 +119,12 @@ void main() {
         'testeQuantidade': '%s Resultados encontrado',
       });
 
-      var result = () => Localization.translate('testeQuantidade', ['1'], [true, true, true]);
-      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      var result = () =>
+          Localization.translate('testeQuantidade', ['1'], [true, true, true]);
+      expect(
+          result,
+          throwsA(
+              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
 
     test('''
@@ -153,8 +161,12 @@ void main() {
     Quando a quantidade de condições de parametros é inferior a quantidade de condições da chave
     Então deve lançar uma excessão
   ''', () {
-      var result = () => Localization.translate('testeQuantidade', ['1'], [true]);
-      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      var result =
+          () => Localization.translate('testeQuantidade', ['1'], [true]);
+      expect(
+          result,
+          throwsA(
+              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
 
     test('''
@@ -162,8 +174,12 @@ void main() {
     Quando a quantidade de condições de parametros é superior a quantidade de condições da chave
     Então deve lançar uma excessão
   ''', () {
-      var result = () => Localization.translate('testeQuantidade', ['1'], [true, true, true]);
-      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      var result = () =>
+          Localization.translate('testeQuantidade', ['1'], [true, true, true]);
+      expect(
+          result,
+          throwsA(
+              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
   });
 }

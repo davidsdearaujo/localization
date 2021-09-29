@@ -128,9 +128,7 @@ extension Localization on String {
         multiLine: false,
       );
       var e = regCondition.stringMatch(replaced)?.split(':');
-      var n = plurals[i]
-          ? e![0]
-          : e![1];
+      var n = plurals[i] ? e![0] : e![1];
 
       newText = newText.replaceAll(replaced, n);
 
