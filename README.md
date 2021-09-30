@@ -54,6 +54,7 @@ Caso prefira, pode utilizar a tradução sem as extensions:
 ```dart
 Localization.translate("sua-key");
 ```
+
 ## Definindo um idioma manualmente
 
 Por padrão, o idioma é selecionado pela configuração `window.locale` do package `dart:ui`.
@@ -73,7 +74,7 @@ Para saber qual o idioma que o dispositivo está chamando, basta importar o `dar
 import 'dart:ui';
 
 void main(){
-  print(window.locale.toString());
+  debugPrint(window.locale.toString());
   runApp(MyApp());
 }
 ```
@@ -93,7 +94,25 @@ Para enviar parâmetros para a tradução, utilize a chave `%s`, conforme o exem
 ### No arquivo dart:
 
 ```dart
-"birthday".i18n(["David Araujo", "07/03"]);
+"birthday".i18n(args: ["David Araujo", "07/03"]);
+```
+
+## Condições
+
+Para enviar condições para a tradução, utilize a chave `%b{valor_verdadeiro:valor_falso}`, conforme o exemplo:
+
+### No arquivo de tradução:
+
+```json
+{
+  "resultado_encontrado": "%s %b{Resultados:Resultado} %b{encontrados:encontrado}"
+}
+```
+
+### No arquivo dart:
+
+```dart
+'resultado_encontrado'.i18n(args: [3], conditions: true, true])
 ```
 
 ## Repetição de chaves

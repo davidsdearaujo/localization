@@ -1,3 +1,34 @@
+## [1.1.0] 2021-8-29
+
+* BREAK CHANGE: Os parâmetros do método `'welcome'.i18n(["22/06"])` e `Localization.translate('welcome', ["22/06"])` estão nomeados
+* BREAK CHANGE: Use `"welcome".i18n(args: ["22/06"])` ao invés de `"welcome".i18n(["22/06"])`
+* BREAK CHANGE: Use `Localization.translate('welcome', args: ["22/06"])` ao invés de `Localization.translate('welcome', ["22/06"])`
+### New features
+* Adição de possibilidade de usar condicionais utilize o `%b{condicao_verdadeira:condição_falsa}` para configurar as suas traduções
+```json
+{
+	'quantidade':  '%s %b{Resultados:Resultado} %b{encontrados:encontrado}'
+}
+```
+Será necessário na parâmetro `conditions` passar uma lista de Booleanos de forma posicional
+```dart
+Localization.translate(
+	'testeQuantidade',
+	args: ['2'],
+	conditions: [true, true],
+)
+```
+
+```dart
+'testeQuantidade'.i18n(
+	args: ['1'],
+	conditions: [false, false],
+)
+```
+
+## [1.0.0] 2021-07-28
+
+* Use Text("welcome".i18n(args: ["22/06"])), ao inves de Text("welcome".i18n(["22/06"])),
 ## [1.0.0] 2021-07-28
 
 * Adicionada possibilidade de multiplos diretórios de tradução;
