@@ -55,7 +55,7 @@ void main() {
       Localization.setTranslationDirectories([
         'test/assets/lang',
       ]);
-      await Localization.configuration();
+      await Localization.configuration(printLog: false);
       var json = Localization.toJson();
       expect(Localization.sentences, isNotEmpty);
       expect(json, isNotNull);

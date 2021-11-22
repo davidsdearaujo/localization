@@ -11,15 +11,17 @@ class LocalizationWidget extends StatefulWidget {
   final Widget child;
   final String? selectedLanguage;
   final List<String> translationLocales;
+  final bool printLog;
 
-  LocalizationWidget({
-    Key? key,
-    @deprecated this.translationLocale,
-    this.defaultLang = "pt_BR",
-    required this.child,
-    this.selectedLanguage,
-    this.translationLocales = const ["assets/lang"],
-  }) : super(key: key);
+  LocalizationWidget(
+      {Key? key,
+      @deprecated this.translationLocale,
+      this.defaultLang = "pt_BR",
+      required this.child,
+      this.selectedLanguage,
+      this.translationLocales = const ["assets/lang"],
+      this.printLog = true})
+      : super(key: key);
 
   @override
   _LocalizationWidgetState createState() => _LocalizationWidgetState();
@@ -32,11 +34,11 @@ class _LocalizationWidgetState extends State<LocalizationWidget> {
   @override
   void initState() {
     super.initState();
-    widget.translationLocales
-        .forEach((locale) => Localization.includeTranslationDirectory(locale));
+    widget.translationLocales.forEach((locale) => Localization.includeTranslationDirectory(locale));
     future = Localization.configuration(
       defaultLang: widget.defaultLang,
       selectedLanguage: widget.selectedLanguage,
+      printLog: widget.printLog,
     );
 
     timeoutTimer = Timer(Duration(seconds: 2), () {
@@ -57,8 +59,7 @@ class _LocalizationWidgetState extends State<LocalizationWidget> {
     return FutureBuilder(
       future: future,
       builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done ||
-            timeoutTimer.isActive) {
+        if (snapshot.connectionState != ConnectionState.done || timeoutTimer.isActive) {
           return Material(child: Center(child: CircularProgressIndicator()));
         } else {
           return widget.child;
