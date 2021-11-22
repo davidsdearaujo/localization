@@ -34,7 +34,8 @@ class _LocalizationWidgetState extends State<LocalizationWidget> {
   @override
   void initState() {
     super.initState();
-    widget.translationLocales.forEach((locale) => Localization.includeTranslationDirectory(locale));
+    widget.translationLocales
+        .forEach((locale) => Localization.includeTranslationDirectory(locale));
     future = Localization.configuration(
       defaultLang: widget.defaultLang,
       selectedLanguage: widget.selectedLanguage,
@@ -59,7 +60,8 @@ class _LocalizationWidgetState extends State<LocalizationWidget> {
     return FutureBuilder(
       future: future,
       builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done || timeoutTimer.isActive) {
+        if (snapshot.connectionState != ConnectionState.done ||
+            timeoutTimer.isActive) {
           return Material(child: Center(child: CircularProgressIndicator()));
         } else {
           return widget.child;
