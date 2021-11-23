@@ -1,3 +1,10 @@
+## [1.1.0] 2021-11-22
+deixar Log ocional, para desativa-lo basta utilizar
+
+```dart
+await Localization.configuration(showDebugPrintMode: false);
+```
+
 ## [1.1.0] 2021-8-29
 
 * BREAK CHANGE: Os parâmetros do método `'welcome'.i18n(["22/06"])` e `Localization.translate('welcome', ["22/06"])` estão nomeados

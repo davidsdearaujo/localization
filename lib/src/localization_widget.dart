@@ -11,15 +11,17 @@ class LocalizationWidget extends StatefulWidget {
   final Widget child;
   final String? selectedLanguage;
   final List<String> translationLocales;
+  final bool showDebugPrintMode;
 
-  LocalizationWidget({
-    Key? key,
-    @deprecated this.translationLocale,
-    this.defaultLang = "pt_BR",
-    required this.child,
-    this.selectedLanguage,
-    this.translationLocales = const ["assets/lang"],
-  }) : super(key: key);
+  LocalizationWidget(
+      {Key? key,
+      @deprecated this.translationLocale,
+      this.defaultLang = "pt_BR",
+      required this.child,
+      this.selectedLanguage,
+      this.translationLocales = const ["assets/lang"],
+      this.showDebugPrintMode = true})
+      : super(key: key);
 
   @override
   _LocalizationWidgetState createState() => _LocalizationWidgetState();
@@ -37,6 +39,7 @@ class _LocalizationWidgetState extends State<LocalizationWidget> {
     future = Localization.configuration(
       defaultLang: widget.defaultLang,
       selectedLanguage: widget.selectedLanguage,
+      showDebugPrintMode: widget.showDebugPrintMode,
     );
 
     timeoutTimer = Timer(Duration(seconds: 2), () {

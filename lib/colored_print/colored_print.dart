@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../localization.dart';
 import 'print_color.dart';
 
 class ColoredPrint {
@@ -14,6 +15,8 @@ class ColoredPrint {
     PrintColor tagColor = PrintColor.grey,
     PrintColor messageColor = PrintColor.white,
   }) {
+    if (!(Localization.showDebugPrintMode ?? true)) return;
+
     var content = "";
     if (tag.isNotEmpty) content += tagColor("[$tag] ");
     content += messageColor(message);

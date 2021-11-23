@@ -122,6 +122,20 @@ Quando houver repetição nas chaves, será enviada uma mensagem no log informan
 flutter: [Localization System] Duplicated Key: "password-label" Path: "packages/package_example/assets/lang"
 flutter: [Localization System] Carregadas keys do path packages/package_example/assets/lang
 ```
+
+## Logs
+
+No Localization há diversos logs que você pode acompanhar na execução do seu app, mas se quiser desabilita-lo basta passar o valor **false** no parametro **showDebugPrintMode** do metodo **configuration**
+
+```dart
+Localization.configuration(showDebugPrintMode: false);
+```
+
+Você também pode setar a variavel chamando a função
+```dart
+Localization.setShowDebugPrintMode(false);
+```
+
 ## Automação
 
 Criamos uma automação que gera as chaves e suas traduções no [Slidy CLI](https://pub.dev/packages/slidy), basta utilizar o comando `slidy localization`
