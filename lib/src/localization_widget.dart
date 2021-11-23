@@ -11,7 +11,7 @@ class LocalizationWidget extends StatefulWidget {
   final Widget child;
   final String? selectedLanguage;
   final List<String> translationLocales;
-  final bool printLog;
+  final bool showDebugPrintMode;
 
   LocalizationWidget(
       {Key? key,
@@ -20,7 +20,7 @@ class LocalizationWidget extends StatefulWidget {
       required this.child,
       this.selectedLanguage,
       this.translationLocales = const ["assets/lang"],
-      this.printLog = true})
+      this.showDebugPrintMode = true})
       : super(key: key);
 
   @override
@@ -39,7 +39,7 @@ class _LocalizationWidgetState extends State<LocalizationWidget> {
     future = Localization.configuration(
       defaultLang: widget.defaultLang,
       selectedLanguage: widget.selectedLanguage,
-      printLog: widget.printLog,
+      showDebugPrintMode: widget.showDebugPrintMode,
     );
 
     timeoutTimer = Timer(Duration(seconds: 2), () {

@@ -4,15 +4,18 @@ import 'package:localization/src/extension.dart';
 
 void main() {
   group('Teste de Translate', () {
-    setUp(() {
-      TestWidgetsFlutterBinding.ensureInitialized();
+    setUp(() async {
+      TestWidgetsFlutterBinding.ensureInitialized();      
+      await Localization.setShowDebugPrintMode(false);
     });
     test('''
     Dado a chave de tradução
     Quando não tiver sido carregado ainda o arquivo de tradução
     Então lançar excessão
   ''', () async {
-      var result = () => Localization.translate('teste');
+      var result = () => Localization.translate(
+            'teste',
+          );
       expect(
           result,
           throwsA(
@@ -20,8 +23,9 @@ void main() {
     });
   });
   group('Teste da configuração', () {
-    setUp(() {
+    setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
+      await Localization.setShowDebugPrintMode(false);
     });
     test('''
     Dado carregamento de traduções
@@ -29,10 +33,7 @@ void main() {
     Então lançar excessão
   ''', () async {
       var result = () async => await Localization.configuration();
-      expect(
-          result,
-          throwsA(
-              '[Localization System] Execute o método "Localization.includeTranslationDirectory()'));
+      expect(result, throwsA('[Localization System] Execute o método "Localization.includeTranslationDirectory()'));
     });
 
     test('''
@@ -43,7 +44,7 @@ void main() {
       Localization.setTranslationDirectories([
         'test/assets/unexist',
       ]);
-      await Localization.configuration();
+      await Localization.configuration(showDebugPrintMode: false);
       expect(Localization.sentences, isEmpty);
     });
 
@@ -55,7 +56,7 @@ void main() {
       Localization.setTranslationDirectories([
         'test/assets/lang',
       ]);
-      await Localization.configuration(printLog: false);
+      await Localization.configuration(showDebugPrintMode: false);
       var json = Localization.toJson();
       expect(Localization.sentences, isNotEmpty);
       expect(json, isNotNull);
@@ -69,7 +70,7 @@ void main() {
       Localization.setTranslationDirectories([
         'test/assets/lang',
       ]);
-      await Localization.configuration(selectedLanguage: 'es_ES');
+      await Localization.configuration(selectedLanguage: 'es_ES', showDebugPrintMode: false);
       var json = Localization.toJson();
       expect(Localization.sentences, isNotEmpty);
       expect(json, isNotNull);
@@ -84,7 +85,7 @@ void main() {
         'test/assets/lang',
       ]);
       // ignore: deprecated_member_use_from_same_package
-      await Localization.configuration(translationLocale: 'test/assets/lang2');
+      await Localization.configuration(translationLocale: 'test/assets/lang2', showDebugPrintMode: false);
       var json = Localization.toJson();
       expect(Localization.sentences, isNotEmpty);
       expect(json, isNotNull);
@@ -104,31 +105,28 @@ void main() {
   });
 
   group('Teste de condicionais da extensão i18n', () {
-    setUp(() {
+    setUp(() async {
       Localization.fromJson({
-        'testeQuantidade':
-            '%s %b{Resultados:Resultado} %b{encontrados:encontrado}',
+        'testeQuantidade': '%s %b{Resultados:Resultado} %b{encontrados:encontrado}',
       });
+      await Localization.setShowDebugPrintMode(false);
     });
 
     test('''
     Dado a localização de uma determinada chave
     Quando não houver nenhuma condicional na chave
     Então deve lançar uma excess~~ao
-  ''', () {
+  ''', () async {
       Localization.fromJson({
         'testeQuantidade': '%s Resultados encontrado',
       });
-
+      // await Localization.configuration(showDebugPrintMode: false);
       var result = () => Localization.translate(
             'testeQuantidade',
             args: ['1'],
             conditions: [true, true, true],
           );
-      expect(
-          result,
-          throwsA(
-              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
 
     test('''
@@ -163,16 +161,13 @@ void main() {
     Dado a localização de uma determinada chave
     Quando a quantidade de condições de parametros é inferior a quantidade de condições da chave
     Então deve lançar uma excessão
-  ''', () {
+  ''', () async {
       var result = () => Localization.translate(
             'testeQuantidade',
             args: ['1'],
             conditions: [true],
           );
-      expect(
-          result,
-          throwsA(
-              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
 
     test('''
@@ -185,10 +180,7 @@ void main() {
             args: ['1'],
             conditions: [true, true, true],
           );
-      expect(
-          result,
-          throwsA(
-              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
   });
 }

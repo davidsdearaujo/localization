@@ -2,7 +2,7 @@
 deixar Log ocional, para desativa-lo basta utilizar
 
 ```dart
-await Localization.configuration(printLog: false);
+await Localization.configuration(showDebugPrintMode: false);
 ```
 
 ## [1.1.0] 2021-8-29

@@ -15,7 +15,7 @@ class ColoredPrint {
     PrintColor tagColor = PrintColor.grey,
     PrintColor messageColor = PrintColor.white,
   }) {
-    if (!(Localization.printLog ?? true)) return;
+    if (!(Localization.showDebugPrintMode ?? true)) return;
 
     var content = "";
     if (tag.isNotEmpty) content += tagColor("[$tag] ");

@@ -125,10 +125,15 @@ flutter: [Localization System] Carregadas keys do path packages/package_example/
 
 ## Logs
 
-No Localization há diversos logs que você pode acompanhar na execução do seu app, mas se quiser desabilita-lo basta passar o valor **false** no parametro **printLog** do metodo **configuration**
+No Localization há diversos logs que você pode acompanhar na execução do seu app, mas se quiser desabilita-lo basta passar o valor **false** no parametro **showDebugPrintMode** do metodo **configuration**
 
 ```dart
-await Localization.configuration(printLog: false);
+Localization.configuration(showDebugPrintMode: false);
+```
+
+Você também pode setar a variavel chamando a função
+```dart
+Localization.setShowDebugPrintMode(false);
 ```
 
 ## Automação
