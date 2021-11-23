@@ -1,4 +1,4 @@
-## [1.1.0] 2021-11-22
+## [1.1.1] 2021-11-22
 deixar Log ocional, para desativa-lo basta utilizar
 
 ```dart
