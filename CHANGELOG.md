@@ -1,5 +1,5 @@
 ## [1.1.0] 2021-11-22
-deixar Log ocional, para desativa-lo basta utilizar
+deixar Log opcional, para desativa-lo basta utilizar
 
 ```dart
 await Localization.configuration(showDebugPrintMode: false);
