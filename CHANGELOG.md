@@ -4,6 +4,7 @@ deixar Log opcional, para desativa-lo basta utilizar
 ```dart
 await Localization.configuration(showDebugPrintMode: false);
 ```
+
 Você também pode setar a variavel chamando a função
 ```dart
 Localization.setShowDebugPrintMode(false);
