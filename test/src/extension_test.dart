@@ -5,7 +5,7 @@ import 'package:localization/src/extension.dart';
 void main() {
   group('Teste de Translate', () {
     setUp(() async {
-      TestWidgetsFlutterBinding.ensureInitialized();      
+      TestWidgetsFlutterBinding.ensureInitialized();
       await Localization.setShowDebugPrintMode(false);
     });
     test('''
@@ -33,7 +33,10 @@ void main() {
     Então lançar excessão
   ''', () async {
       var result = () async => await Localization.configuration();
-      expect(result, throwsA('[Localization System] Execute o método "Localization.includeTranslationDirectory()'));
+      expect(
+          result,
+          throwsA(
+              '[Localization System] Execute o método "Localization.includeTranslationDirectory()'));
     });
 
     test('''
@@ -70,7 +73,8 @@ void main() {
       Localization.setTranslationDirectories([
         'test/assets/lang',
       ]);
-      await Localization.configuration(selectedLanguage: 'es_ES', showDebugPrintMode: false);
+      await Localization.configuration(
+          selectedLanguage: 'es_ES', showDebugPrintMode: false);
       var json = Localization.toJson();
       expect(Localization.sentences, isNotEmpty);
       expect(json, isNotNull);
@@ -85,7 +89,8 @@ void main() {
         'test/assets/lang',
       ]);
       // ignore: deprecated_member_use_from_same_package
-      await Localization.configuration(translationLocale: 'test/assets/lang2', showDebugPrintMode: false);
+      await Localization.configuration(
+          translationLocale: 'test/assets/lang2', showDebugPrintMode: false);
       var json = Localization.toJson();
       expect(Localization.sentences, isNotEmpty);
       expect(json, isNotNull);
@@ -107,7 +112,8 @@ void main() {
   group('Teste de condicionais da extensão i18n', () {
     setUp(() async {
       Localization.fromJson({
-        'testeQuantidade': '%s %b{Resultados:Resultado} %b{encontrados:encontrado}',
+        'testeQuantidade':
+            '%s %b{Resultados:Resultado} %b{encontrados:encontrado}',
       });
       await Localization.setShowDebugPrintMode(false);
     });
@@ -126,7 +132,10 @@ void main() {
             args: ['1'],
             conditions: [true, true, true],
           );
-      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      expect(
+          result,
+          throwsA(
+              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
 
     test('''
@@ -167,7 +176,10 @@ void main() {
             args: ['1'],
             conditions: [true],
           );
-      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      expect(
+          result,
+          throwsA(
+              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
 
     test('''
@@ -180,7 +192,10 @@ void main() {
             args: ['1'],
             conditions: [true, true, true],
           );
-      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      expect(
+          result,
+          throwsA(
+              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
   });
 }
