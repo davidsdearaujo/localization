@@ -33,7 +33,10 @@ void main() {
     Então lançar excessão
   ''', () async {
       var result = () async => await Localization.configuration();
-      expect(result, throwsA('[Localization System] Execute o método "Localization.includeTranslationDirectory()'));
+      expect(
+          result,
+          throwsA(
+              '[Localization System] Execute o método "Localization.includeTranslationDirectory()'));
     });
 
     test('''
@@ -109,7 +112,8 @@ void main() {
   group('Teste de condicionais da extensão i18n', () {
     setUp(() async {
       Localization.fromJson({
-        'testeQuantidade': '%s %b{Resultados:Resultado} %b{encontrados:encontrado}',
+        'testeQuantidade':
+            '%s %b{Resultados:Resultado} %b{encontrados:encontrado}',
       });
       await Localization.setShowDebugPrintMode(false);
     });
@@ -128,7 +132,10 @@ void main() {
             args: ['1'],
             conditions: [true, true, true],
           );
-      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      expect(
+          result,
+          throwsA(
+              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
 
     test('''
@@ -169,7 +176,10 @@ void main() {
             args: ['1'],
             conditions: [true],
           );
-      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      expect(
+          result,
+          throwsA(
+              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
 
     test('''
@@ -182,7 +192,10 @@ void main() {
             args: ['1'],
             conditions: [true, true, true],
           );
-      expect(result, throwsA('[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
+      expect(
+          result,
+          throwsA(
+              '[Localization System] A Quantidade de condicionais configurada na chave não condiz com os parametros.'));
     });
   });
 }
