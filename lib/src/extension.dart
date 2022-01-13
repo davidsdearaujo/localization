@@ -51,10 +51,12 @@ extension Localization on String {
     bool showDebugPrintMode = true,
   }) async {
     Localization.showDebugPrintMode = showDebugPrintMode;
-    if (translationLocale != null) includeTranslationDirectory(translationLocale);
+    if (translationLocale != null)
+      includeTranslationDirectory(translationLocale);
     ColoredPrint.log('Carregando dados de localização.');
     if (Localization.translationLocales == null) {
-      final message = 'Execute o método "Localization.includeTranslationDirectory()';
+      final message =
+          'Execute o método "Localization.includeTranslationDirectory()';
       ColoredPrint.error(message);
       throw '[Localization System] $message';
     }
@@ -64,14 +66,12 @@ extension Localization on String {
       try {
         selectedLanguage = selectedLanguage ?? window.locale.toString();
         data = (await _readLanguageFile(locale, selectedLanguage, defaultLang))!;
-        // data = await rootBundle
-        //     .loadString('$locale/$selectedLanguage.json')
-        //     .onError((error, stackTrace) => rootBundle.loadString('$locale/${defaultLang ?? 'pt_BR'}.json'));
 
         Map<String, dynamic> _result = json.decode(data);
         for (var entry in _result.entries) {
           if (Localization.sentences?.containsKey(entry.key) ?? false) {
-            ColoredPrint.warning('Duplicated Key: \"${entry.key}\" Path: \"$locale\"');
+            ColoredPrint.warning(
+                'Duplicated Key: \"${entry.key}\" Path: \"$locale\"');
           }
           Localization.sentences![entry.key] = entry.value.toString();
         }
@@ -80,7 +80,8 @@ extension Localization on String {
         ColoredPrint.error("Erro ao carregar as keys do path $locale");
       }
     }
-    if (selectedLanguage != null) Localization.selectedLanguage = selectedLanguage;
+    if (selectedLanguage != null)
+      Localization.selectedLanguage = selectedLanguage;
     if (defaultLang != null) Localization.defaultLang = defaultLang;
     ColoredPrint.success("Dados de localização carregados com sucesso!");
     ColoredPrint.show("Finalização da configurção");
@@ -92,12 +93,15 @@ extension Localization on String {
   }
 
   static void includeTranslationDirectory(String translationLocale) async {
-    if (Localization.translationLocales == null) Localization.translationLocales = [];
+    if (Localization.translationLocales == null)
+      Localization.translationLocales = [];
     Localization.translationLocales!.add(translationLocale);
     ColoredPrint.log("Adicionado Path: $translationLocale");
   }
 
-  static String translate(String key, {List<String>? args, List<bool>? conditions}) => key.i18n(args: args, conditions: conditions);
+  static String translate(String key,
+          {List<String>? args, List<bool>? conditions}) =>
+      key.i18n(args: args, conditions: conditions);
   String i18n({List<String>? args, List<bool>? conditions}) {
     final key = this;
     if (Localization.sentences == null) {
@@ -116,7 +120,8 @@ extension Localization on String {
     if (res != null && conditions != null) {
       var matches = _getConditions(res);
       if (matches.length != conditions.length) {
-        final message = "A Quantidade de condicionais configurada na chave não condiz com os parametros.";
+        final message =
+            "A Quantidade de condicionais configurada na chave não condiz com os parametros.";
         ColoredPrint.error(message);
         throw '[Localization System] $message';
       }
@@ -142,7 +147,8 @@ extension Localization on String {
     return [];
   }
 
-  String _replaceConditions(Iterable<RegExpMatch> matches, List<bool> plurals, String text) {
+  String _replaceConditions(
+      Iterable<RegExpMatch> matches, List<bool> plurals, String text) {
     var newText = text;
     int i = 0;
 
@@ -165,7 +171,8 @@ extension Localization on String {
     return newText;
   }
 
-  static void fromJson(Map<String, dynamic> json) => Localization.sentences = json.map((key, value) => MapEntry(key, value.toString()));
+  static void fromJson(Map<String, dynamic> json) => Localization.sentences =
+      json.map((key, value) => MapEntry(key, value.toString()));
 
   static Map<String, String>? toJson() => Localization.sentences;
 }

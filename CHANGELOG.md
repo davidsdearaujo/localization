@@ -12,6 +12,11 @@ deixar Log ocional, para desativa-lo basta utilizar
 await Localization.configuration(showDebugPrintMode: false);
 ```
 
+Você também pode setar a variavel chamando a função
+```dart
+Localization.setShowDebugPrintMode(false);
+```
+
 ## [1.1.0] 2021-8-29
 
 * BREAK CHANGE: Os parâmetros do método `'welcome'.i18n(["22/06"])` e `Localization.translate('welcome', ["22/06"])` estão nomeados
