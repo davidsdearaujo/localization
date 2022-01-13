@@ -14,6 +14,36 @@ extension Localization on String {
 
   static setShowDebugPrintMode(bool value) => showDebugPrintMode = value;
 
+  static Future<String> _readFullLanguageFile(String pathLocale, String language) async {
+    final data = await rootBundle.loadString('$pathLocale/$language.json');
+    return data;
+  }
+
+  static Future<String> _readLanguageFileWithoutCountry(String pathLocale, String language) async {
+    final onlyLanguage = language.split('_').first;
+    final data = await rootBundle.loadString('$pathLocale/$onlyLanguage.json');
+    return data;
+  }
+
+  static Future<String> _readDefaultLanguageFile(String pathLocale, String? defaultLang) async {
+    final data = await rootBundle.loadString('$pathLocale/${defaultLang ?? 'pt_BR'}.json');
+    return data;
+  }
+
+  static Future<String?> _readLanguageFile(String pathLocale, String language, String? defaultLanguage) async {
+    String? data;
+    try {
+      data = await _readFullLanguageFile(pathLocale, language);
+    } catch (ex, stack) {
+      try {
+        data = await _readLanguageFileWithoutCountry(pathLocale, language);
+      } catch (ex2, stack2) {
+        data = await _readDefaultLanguageFile(pathLocale, defaultLanguage);
+      }
+    }
+    return data;
+  }
+
   static Future<void> configuration({
     @deprecated String? translationLocale,
     String? defaultLang,
@@ -33,9 +63,10 @@ extension Localization on String {
       String data;
       try {
         selectedLanguage = selectedLanguage ?? window.locale.toString();
-        data = await rootBundle
-            .loadString('$locale/$selectedLanguage.json')
-            .onError((error, stackTrace) => rootBundle.loadString('$locale/${defaultLang ?? 'pt_BR'}.json'));
+        data = (await _readLanguageFile(locale, selectedLanguage, defaultLang))!;
+        // data = await rootBundle
+        //     .loadString('$locale/$selectedLanguage.json')
+        //     .onError((error, stackTrace) => rootBundle.loadString('$locale/${defaultLang ?? 'pt_BR'}.json'));
 
         Map<String, dynamic> _result = json.decode(data);
         for (var entry in _result.entries) {
