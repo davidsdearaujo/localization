@@ -64,6 +64,8 @@ Para forçar um determinado idioma, basta utilizar o parâmetro `selectedLanguag
 Localization.configuration(selectedLanguage: 'pt_BR');
 ```
 
+Quando uma lingua específica não é encontrada, tentamos buscar um arquivo geral para a língua especificada. No exemplo de não encontrar o arquivo `pt_BR.json`, será carregado o arquivo `pt.json`;
+
 Se os arquivos de tradução não forem encontrados, será carregado o arquivo de traduções informado em `defaultLanguage` _(padrão `pt_BR.json`)_.
 
 Para saber qual o idioma que o dispositivo está chamando, basta importar o `dart:ui` dar um print de `window.locale`, dessa forma:
