@@ -44,26 +44,29 @@ class FileServiceImpl implements FileService {
   }
 
   Future<void> _saveFile(LanguageFile language) async {
-    final buff = StringBuffer();
-    final keys = language.keys;
-    if (keys.isEmpty) {
-      buff.write('{');
-    } else {
-      buff.writeln('{');
-    }
-
-    for (var i = 0; i < keys.length; i++) {
-      final key = keys[i];
-      final value = language.read(key);
-      buff.write('  \"$key\": \"$value\"');
-      if (i != (keys.length - 1)) {
-        buff.write(',');
-      }
-      buff.write('\n');
-    }
-
-    buff.write('}');
-
-    await language.file.writeAsString(buff.toString());
+    await language.file.writeAsString(jsonEncode(language.getMap()));
   }
+  // Future<void> _saveFile(LanguageFile language) async {
+  //   final buff = StringBuffer();
+  //   final keys = language.keys;
+  //   if (keys.isEmpty) {
+  //     buff.write('{');
+  //   } else {
+  //     buff.writeln('{');
+  //   }
+
+  //   for (var i = 0; i < keys.length; i++) {
+  //     final key = keys[i];
+  //     final value = language.read(key);
+  //     buff.write('  \"$key\": \"$value\"');
+  //     if (i != (keys.length - 1)) {
+  //       buff.write(',');
+  //     }
+  //     buff.write('\n');
+  //   }
+
+  //   buff.write('}');
+
+  //   await language.file.writeAsString(buff.toString());
+  // }
 }

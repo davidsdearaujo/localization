@@ -3,6 +3,8 @@ import 'dart:io';
 class LanguageFile {
   final Map<String, String> _dicionary;
 
+  Map<String, String> getMap() => Map<String, String>.unmodifiable(_dicionary);
+
   String read(String key) => _dicionary[key] ?? '';
   void set(String key, String value) => _dicionary[key] = value;
 
