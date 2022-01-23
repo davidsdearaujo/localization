@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lazy_data_table_plus/lazy_data_table_plus.dart';
 import 'package:localization_ui/home/domain/entities/language_file.dart';
 import 'package:localization_ui/home/presenter/states/file_state.dart';
 import 'package:localization_ui/home/presenter/stores/file_store.dart';
@@ -19,6 +20,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var _isPicked = false;
   var _hasEdited = false;
+  final searchTextController = TextEditingController(text: '');
+  String get _searchText => searchTextController.text;
 
   @override
   void initState() {
@@ -37,16 +40,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Set<String> keys(List<LanguageFile> languages) {
-    final list = <String>{};
-
-    for (var lang in languages) {
-      list.addAll(lang.keys);
-    }
-
-    return list;
-  }
-
   final saveFileKeySet = LogicalKeySet(
     LogicalKeyboardKey.meta, // Replace with control on Windows
     LogicalKeyboardKey.keyS,
@@ -56,6 +49,20 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final store = context.watch<FileStore>();
     final state = store.value;
+
+    final keys = state.keys.where((key) {
+      if (_searchText.isEmpty || key.contains(_searchText)) {
+        return true;
+      }
+
+      for (var lang in state.languages) {
+        final text = lang.read(key).toLowerCase();
+        if (text.contains(_searchText.toLowerCase())) {
+          return true;
+        }
+      }
+      return false;
+    }).toSet();
 
     return FocusableActionDetector(
       autofocus: true,
@@ -71,31 +78,67 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: false,
-          title: InkWell(
-            onTap: _isPicked
-                ? null
-                : () async {
-                    setState(() {
-                      _isPicked = true;
-                    });
-                    final selectedDirectory = await FilePicker.platform.getDirectoryPath();
-                    _isPicked = false;
-                    if (selectedDirectory != null) {
-                      store.setDirectoryAndLoad(selectedDirectory);
-                    } else {
-                      setState(() {});
-                    }
-                  },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(state.directory != null ? '${basename(state.directory!)}${_hasEdited ? '*' : ''}' : 'Selecione um diretório'),
-                  Icon(Icons.mode_edit_outline_rounded),
-                ],
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InkWell(
+                onTap: _isPicked
+                    ? null
+                    : () async {
+                        setState(() {
+                          _isPicked = true;
+                        });
+                        final selectedDirectory = await FilePicker.platform.getDirectoryPath();
+                        _isPicked = false;
+                        if (selectedDirectory != null) {
+                          store.setDirectoryAndLoad(selectedDirectory);
+                        } else {
+                          setState(() {});
+                        }
+                      },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(state.directory != null ? '${basename(state.directory!)}${_hasEdited ? '*' : ''}' : 'Selecione um diretório'),
+                      Icon(Icons.mode_edit_outline_rounded),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              SizedBox(width: 20),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: 400,
+                ),
+                child: TextField(
+                  controller: searchTextController,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  cursorColor: Colors.white,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.white54),
+                    hintText: 'Pesquisar...',
+                    suffixIcon: _searchText.isEmpty
+                        ? null
+                        : IconButton(
+                            onPressed: () {
+                              setState(() {
+                                searchTextController.text = '';
+                              });
+                            },
+                            icon: Icon(
+                              Icons.close,
+                              color: Colors.white,
+                            ),
+                          ),
+                  ),
+                ),
+              )
+            ],
           ),
           actions: [
             if (store is LoadingFileState)
@@ -108,53 +151,86 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: Container(
-          width: double.infinity,
-          child: SingleChildScrollView(
-            child: DataTable(
-              border: TableBorder.all(),
-              columns: <DataColumn>[
-                DataColumn(
-                  label: Text(
-                    'Chaves',
-                    style: TextStyle(fontStyle: FontStyle.italic),
+          width: MediaQuery.of(context).size.width,
+          child: LazyDataTable(
+            tableDimensions: LazyDataTableDimensions(
+              cellHeight: 50,
+              cellWidth: 300,
+              columnHeaderHeight: 50,
+              rowHeaderWidth: 220,
+            ),
+            tableTheme: LazyDataTableTheme(
+              columnHeaderBorder: Border.all(color: Colors.black38),
+              rowHeaderBorder: Border.all(color: Colors.black38),
+              cellBorder: Border.all(color: Colors.black12),
+              cornerBorder: Border.all(color: Colors.black38),
+              columnHeaderColor: Colors.grey[100],
+              rowHeaderColor: Colors.grey[100],
+              cellColor: Colors.white,
+              cornerColor: Colors.grey[100],
+            ),
+            columns: state.languages.length,
+            rows: keys.length,
+            columnHeaderBuilder: (int columnIndex) {
+              return Container(
+                alignment: Alignment.center,
+                child: Text(
+                  state.languages[columnIndex].nameWithoutExtension,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                for (var lang in state.languages)
-                  DataColumn(
-                    label: Text(
-                      lang.nameWithoutExtension,
-                      style: TextStyle(fontStyle: FontStyle.italic),
+              );
+            },
+            rowHeaderBuilder: (int rowIndex) {
+              final key = keys.elementAt(rowIndex);
+              return InkWell(
+                onLongPress: () {
+                  Clipboard.setData(new ClipboardData(text: key));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Copiado para a Área de transferência')));
+                },
+                onTap: () {
+                  _dialogUpdateKeyName(key);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                      key,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-              ],
-              rows: <DataRow>[
-                for (var key in keys(state.languages))
-                  DataRow(
-                    cells: <DataCell>[
-                      DataCell(
-                        InkWell(
-                          onTap: () {
-                            _dialogUpdateKeyName(key);
-                          },
-                          child: Text(key, style: TextStyle(fontWeight: FontWeight.bold)),
-                        ),
-                      ),
-                      for (var lang in state.languages)
-                        DataCell(
-                          TextFormField(
-                            decoration: InputDecoration.collapsed(hintText: ''),
-                            onChanged: (value) {
-                              lang.set(key, value);
-                              setState(() {
-                                _hasEdited = true;
-                              });
-                            },
-                            initialValue: lang.read(key),
-                          ),
-                        ),
-                    ],
-                  ),
-              ],
+                ),
+              );
+            },
+            dataCellBuilder: (int rowIndex, int columnIndex) {
+              final key = keys.elementAt(rowIndex);
+              final lang = state.languages[columnIndex];
+
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  key: ValueKey('$key$columnIndex'),
+                  decoration: InputDecoration.collapsed(hintText: ''),
+                  onChanged: (value) {
+                    lang.set(key, value);
+                    setState(() {
+                      _hasEdited = true;
+                    });
+                  },
+                  initialValue: lang.read(key),
+                ),
+              );
+            },
+            cornerWidget: Center(
+              child: Text(
+                'Chaves',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
         ),
@@ -179,6 +255,11 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+        bottomNavigationBar: Container(
+          height: 25,
+          width: double.infinity,
+          color: Theme.of(context).primaryColor,
+        ),
       ),
     );
   }
@@ -191,6 +272,15 @@ class _HomePageState extends State<HomePage> {
         return AlertDialog(
           title: Text('Nome da Chave'),
           content: TextField(
+            textInputAction: TextInputAction.send,
+            onSubmitted: (_) {
+              if (key.isEmpty) {
+                return;
+              }
+              context.read<FileStore>().addNewKey(key);
+              _hasEdited = true;
+              Navigator.of(context).pop();
+            },
             inputFormatters: [RemoveSpace()],
             onChanged: (value) => key = value,
             decoration: InputDecoration(
@@ -229,6 +319,14 @@ class _HomePageState extends State<HomePage> {
         return AlertDialog(
           title: Text('Editar Chave'),
           content: TextFormField(
+            textInputAction: TextInputAction.send,
+            onFieldSubmitted: (text) {
+              if (oldKey != key) {
+                _hasEdited = true;
+                context.read<FileStore>().editKey(oldKey, key);
+              }
+              Navigator.of(context).pop();
+            },
             inputFormatters: [RemoveSpace()],
             initialValue: oldKey,
             onChanged: (value) => key = value,
