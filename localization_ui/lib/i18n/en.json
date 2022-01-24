@@ -1,12 +1,1 @@
-{
-    "clipboard-text": "Copied to clipboard",
-    "select-a-directory": "Select a folder",
-    "search": "Search",
-    "keys": "Keys",
-    "edit-key": "Edit key",
-    "key-name": "Key name",
-    "key": "Key",
-    "cancel": "Cancel",
-    "save": "Save",
-    "read-file-error": "Error reading json files"
-}
+{"clipboard-text":"Copied to clipboard","select-a-directory":"Select a folder","search":"Search","keys":"Keys","edit-key":"Edit key","key-name":"Key name","key":"Key","cancel":"Cancel","save":"Save","read-file-error":"Error reading json files"}
