@@ -1,8 +1,20 @@
+## [1.1.2-dev.1] 2022-01-13
+Adicionado suporte a arquivos de tradução com apenas a língua, como por exemplo `pt.json`;
+
+```dart
+await Localization.configuration(showDebugPrintMode: false);
+```
+
 ## [1.1.1] 2021-11-22
 deixar Log ocional, para desativa-lo basta utilizar
 
 ```dart
 await Localization.configuration(showDebugPrintMode: false);
+```
+
+Você também pode setar a variavel chamando a função
+```dart
+Localization.setShowDebugPrintMode(false);
 ```
 
 ## [1.1.0] 2021-8-29
