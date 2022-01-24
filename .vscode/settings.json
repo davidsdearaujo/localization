@@ -2,5 +2,6 @@
     "dart.lineLength": 140,
     "editor.rulers": [
         140
-    ]
+    ],
+    "dart.flutterSdkPath": "/Users/jacobmoura/fvm/versions/stable"
 }

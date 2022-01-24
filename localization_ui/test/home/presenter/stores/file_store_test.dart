@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:localization_ui/home/domain/usecases/read_json.dart';
-import 'package:localization_ui/home/domain/usecases/save_json.dart';
-import 'package:localization_ui/home/presenter/states/file_state.dart';
-import 'package:localization_ui/home/presenter/stores/file_store.dart';
+import 'package:localization_ui/src/home/domain/usecases/read_json.dart';
+import 'package:localization_ui/src/home/domain/usecases/save_json.dart';
+import 'package:localization_ui/src/home/presenter/states/file_state.dart';
+import 'package:localization_ui/src/home/presenter/stores/file_store.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:value_listenable_test/value_listenable_test.dart';
 

@@ -1,3 +1,7 @@
-import 'main_common.dart' as main_home;
+import 'package:flutter/material.dart';
 
-void main() => main_home.main();
+import 'src/my_app.dart';
+
+void main() {
+  runApp(MyApp());
+}

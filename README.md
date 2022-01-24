@@ -1,141 +1,161 @@
 # Localization
 
-Package para simplificar tradução no app.
+Package to simplify in-app translation.
+## Install
 
-```dart
-import 'package:localization/localization.dart';
+Use the **Localization** package together with **flutter_localization.
+
+Add in your `pubspec`:
+```yaml
+dependencies:
+  flutter_localizations: 
+    sdk: flutter
+  localization: <last-version>
+
+flutter:
+
+  # json files directory
+  assets:
+    - lib/i18n/
 ```
 
-## Configuração - Sem sistema de rotas   [[exemplo]](https://github.com/davidsdearaujo/localization/blob/master/example/README.md)
+Now, add the delegate in **MaterialApp** or **CupertinoApp** and define a path where the translation json files will be:
+```dart
+ @override
+  Widget build(BuildContext context) {
+    // set json file directory
+    // default value is 'lib/i18n'
+    LocalJsonLocalization.delegate.directory = 'lib/i18n';
 
-A configuração do package sem sistema de rotas é bem simples, basta colocar após o MaterialApp o seguinte código:
+    return MaterialApp(
+      localizationsDelegates: [
+        // delegate from flutter_localization
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        // delegate from localization package.
+        LocalJsonLocalization.delegate,
+      ],
+      home: HomePage(),
+    );
+  }
+```
+
+## Json files
+
+The json file pattern must have the name of the locale and its content must be a json of key and value ONLY.
+Create the files in the directory configured (`LocalJsonLocalization.delegate.directory`):
+
+```
+lib/i18n/en_US.json
+lib/i18n/es_ES.json
+lib/i18n/pt_BR.json
+```
+
+See an example of a translation json file:
+
+**en_US.json**
+```json
+{
+  "welcome-text": "This text is in english"
+}
+```
+**es_ES.json**
+```json
+{
+  "welcome-text": "Este texto esta en español"
+}
+```
+**pt_BR.json**
+```json
+{
+  "welcome-text": "Este texto está em português"
+}
+```
+
+## Using
+
+For convenience, the **i18n()** method has been added to the String class via extension.
+So just add the translation json file key as string and use **i18n()** method to bring up the translation.
 
 ```dart
+String text = 'welcome-text'.i18n();
+print(text) // prints 'This text is in english'
+```
+
+We can also work with arguments for translation. Use **%s** notion:
+```json
+{
+  "welcome-text": "Welcome, %s"
+}
+```
+```dart
+String text = 'welcome-text'.i18n(['Peter']);
+print(text); // Welcome, Peter
+
+```
+The **%s** notation can also be retrieved positionally. Just use **%s0, %s1, %s2**...
+
+THAT`S IT!
+
+## Additional settings
+
+After installation, the **Localization** package is fully integrated into Flutter and can reflect changes made natively by the SDK.
+Here are some examples of configurations that we will be able to do directly in **MaterialApp** or **CupertinoApp**.
+
+### Add supported languages
+
+This setting is important to tell Flutter which languages your app is prepared to work with. We can do this by simply adding the Locale in the **supportedLocales** property:
+```dart
 return MaterialApp(
-  ...,
-  home: LocalizationWidget(child: MyHomePage()),
+  supportedLocales: [
+    Locale('en', 'US'),
+    Locale('es', 'ES'),
+    Locale('pt', 'BR'),
+  ],
+  ...
 );
 ```
 
-Dessa forma, será carregado o arquivo de tradução no início da aplicação e seu conteúdo ficará em memória.
+### Locale resolution
 
-## Configuração - Com sistema de rotas   [[exemplo]](https://github.com/davidsdearaujo/localization/blob/master/example/README.md)
-
-Quando a aplicação está utilizando o sistema de rotas do flutter, não é utilizada a propriedade `home` do `MaterialApp`.
-Para resolver esse problema, utilize o método assíncrono estático `Localization.configuration()`.
-
-**NOTA :** Esse método deve ser chamado antes de todas as chamadas de tradução. Geralmente, é executado na SplashScreen.
-
-## Adicionando pastas de tradução (padrão `'assets/lang'`)
-Para configurar uma lista de pastas de tradução, basta utilizar o método:
-```dart
-Localization.setTranslationDirectories([
-  'assets/lang',
-  'packages/package_example/assets/lang',
-]);
-```
-
-Para adicionar uma pasta de tradução sem limpar as pastas de tradução incluídas anteriormente, basta chamar o método 
-```dart
-Localization.includeTranslationDirectory('assets/lang');
-```
-
-**NOTA :** Para as alterações de pasta surtirem efeito, deve chamar a seguir o método `Localization.configuration()`
-
-## Consumindo a tradução
-
-Para facilitar o consumo da tradução, criamos uma extension de simples utilização:
+Often we will not have to make some decisions about what to do when the device language is not supported by our app or work with a different translation for different countries (eg pt_BR(Brazil) and pt_PT(Portugal).
+For these and other decisions we can use the dsdsk property to create a resolution strategy:
 
 ```dart
-"sua-key".i18n();
+return MaterialApp(
+  localeResolutionCallback: (locale, supportedLocales) {
+      if (supportedLocales.contains(locale)) {
+        return locale;
+      }
+
+      // define pt_BR as default when de language code is 'pt'
+      if (locale?.languageCode == 'pt') {
+        return Locale('pt', 'BR');
+      }
+
+      // default language
+      return Locale('en', 'US');
+  },
+  ...
+);
 ```
 
-Caso prefira, pode utilizar a tradução sem as extensions:
-```dart
-Localization.translate("sua-key");
-```
+## Localization UI
 
-## Definindo um idioma manualmente
+![localization-ui.png]()
 
-Por padrão, o idioma é selecionado pela configuração `window.locale` do package `dart:ui`.
-Para forçar um determinado idioma, basta utilizar o parâmetro `selectedLanguage`, dessa forma:
+We have an application to help you configure your translation keys.
+The project is also open-source, so be fine if you want to help it evolve!
 
-```dart
-Localization.configuration(selectedLanguage: 'pt_BR');
-```
+## Features and bugs
 
-Se os arquivos de tradução não forem encontrados, será carregado o arquivo de traduções informado em `defaultLanguage` _(padrão `pt_BR.json`)_.
+The Segmented State Standard is constantly growing.
+Let us know what you think of all this.
+If you agree, give a Star in that repository representing that you are signing and consenting to the proposed standard.
 
-Para saber qual o idioma que o dispositivo está chamando, basta importar o `dart:ui` dar um print de `window.locale`, dessa forma:
+## Questions and Problems
 
-**main.dart**
+The **issues** channel is open for questions, to report problems and suggestions, do not hesitate to use this communication channel.
 
-```dart
-import 'dart:ui';
-
-void main(){
-  debugPrint(window.locale.toString());
-  runApp(MyApp());
-}
-```
-
-## Parâmetros
-
-Para enviar parâmetros para a tradução, utilize a chave `%s`, conforme o exemplo:
-
-### No arquivo de tradução:
-
-```json
-{
-  "birthday":"O aniversário de %s é no dia %s"
-}
-```
-
-### No arquivo dart:
-
-```dart
-"birthday".i18n(args: ["David Araujo", "07/03"]);
-```
-
-## Condições
-
-Para enviar condições para a tradução, utilize a chave `%b{valor_verdadeiro:valor_falso}`, conforme o exemplo:
-
-### No arquivo de tradução:
-
-```json
-{
-  "resultado_encontrado": "%s %b{Resultados:Resultado} %b{encontrados:encontrado}"
-}
-```
-
-### No arquivo dart:
-
-```dart
-'resultado_encontrado'.i18n(args: [3], conditions: true, true])
-```
-
-## Repetição de chaves
-Quando houver repetição nas chaves, será enviada uma mensagem no log informando a chave que está duplicada:
-
-```
-flutter: [Localization System] Duplicated Key: "password-label" Path: "packages/package_example/assets/lang"
-flutter: [Localization System] Carregadas keys do path packages/package_example/assets/lang
-```
-
-## Logs
-
-No Localization há diversos logs que você pode acompanhar na execução do seu app, mas se quiser desabilita-los, basta passar o valor **false** no parametro **showDebugPrintMode** do metodo **configuration**
-
-```dart
-Localization.configuration(showDebugPrintMode: false);
-```
-
-Você também pode configurar a variavel chamando a função
-```dart
-Localization.setShowDebugPrintMode(false);
-```
-
-## Automação
-
-Criamos uma automação que gera as chaves e suas traduções no [Slidy CLI](https://pub.dev/packages/slidy), basta utilizar o comando `slidy localization`
+> **LET'S BE REFERENCES TOGETHER**
